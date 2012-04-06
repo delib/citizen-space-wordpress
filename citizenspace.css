@@ -1,0 +1,52 @@
+/* Citizen Space plugin styles */
+
+.citizenspace-search-form .hide {
+    display:none;
+}
+
+.citizenspace-search-form fieldset {
+    margin: 0.5em 0;
+}
+
+.citizenspace-search-form label {
+    display:inline-block;
+    width: 200px;
+}
+
+.citizenspace-search-form.basic label {
+    width: 200px;
+}
+
+/* Admin */
+
+.citizenspace-good {
+    font-weight:bold;
+    color:green;
+}
+
+.citizenspace-bad {
+    font-weight:bold;
+    color:red;   
+}
+
+.citizenspace-shortcode-builder .citizenspace-search-form {
+    float:left;
+    width: 50%;
+}
+
+.citizenspace-shortcode-builder .citizenspace-search-results {
+    float:right;
+    width: 45%;
+}
+
+.citizenspace-shortcode-builder #citizenspace-shortcode-container {
+    float:left;
+    clear:left;
+    width: 50%;
+}
+
+.citizenspace-shortcode-builder #citizenspace-shortcode {
+    background-color:#eee;
+    padding: 1em;
+    margin-top: 1em;
+}
