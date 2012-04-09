@@ -3,16 +3,22 @@
 /****************************************************
  * API
  ****************************************************/ 
-function citizenspace_api_get($url) {
+function citizenspace_api_get($url, $just_status_please=false) {
   $root = get_option('citizenspace_url', '');
   $ch = curl_init($root . '/api/1.0/' . $url);
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, True);
-  return curl_exec($ch);
+  $result = curl_exec($ch);
+  if($just_status_please) {
+    return curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  }
+  else {
+    return $result;
+  }
 }
 
 function citizenspace_api_is_valid_url($url) {
-  $reply = citizenspace_api_get('is_this_a_citizenspace_instance?');
-  return $reply != FALSE;
+  $status = citizenspace_api_get('citizen_space_version', true);
+  return(substr($status, 0, 1) == '2'); # success code, ie not a 404 or 5XX
 }
 
 function citizenspace_api_advanced_search_fields($query) {

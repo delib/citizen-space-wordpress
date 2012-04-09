@@ -36,10 +36,10 @@ function citizenspace_admin_do() {
         <p><?php _e("Citizen Space URL: " ); ?><input type="text" name="citizenspace_url" value="<?php echo $url; ?>" size="40">
         
         <?php if(citizenspace_api_is_valid_url($url)) {
-          echo '<span class="citizenspace-good">This looks like a valid Citizen Space site</span>'; 
+          echo '<span class="citizenspace-good">This looks like a valid Citizen Space site.</span>'; 
         }         
         else {
-          echo '<span class="citizenspace-bad">I couldn\'t find a Citizen Space site at this URL</span>';
+          echo '<span class="citizenspace-bad">I couldn\'t find a Citizen Space site at this URL.</span>';
         }
         ?>
         </p>  
