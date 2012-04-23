@@ -53,9 +53,19 @@ function citizenspace_admin_do() {
         </p>  
         
         <p>
+          <?php if(!class_exists('DOMDocument')) $dom_unavailable = True; ?>
           Consultation search results should:
-          <br/><input type="radio" name="embed_overviews" id="dont_embed_overviews" value="0" <?php if(!$embed_overviews) echo 'checked="checked"'?>/> <label for="dont_embed_overviews">Link to consultation records on Citizen Space</label>
-          <br/><input type="radio" name="embed_overviews" id="embed_overviews" value="1" <?php if($embed_overviews) echo 'checked="checked"'?>/> <label for="embed_overviews">Link to consultation records embedded in this site</label>
+          <br/><input type="radio" name="embed_overviews" id="dont_embed_overviews" value="0" <?php if(!$embed_overviews) echo 'checked="checked"'?>/>
+          <label for="dont_embed_overviews">Link to consultation records on Citizen Space</label>
+     
+          <?php if(isset($dom_unavailable)) {?>
+          <br/><input type="radio" name="embed_overviews" id="embed_overviews" value="1" disabled="true"/>
+          <label for="embed_overviews" style="color:#999">Link to consultation records embedded in this site - <span style="font-style:italic;">You need to install the php-xml module to enable this feature</span></label>
+
+          <?php } else {?>
+          <br/><input type="radio" name="embed_overviews" id="embed_overviews" value="1" <?php if($embed_overviews) echo 'checked="checked"'?> />
+          <label for="embed_overviews">Link to consultation records embedded in this site</label>
+          <?php }?>
         </p>
         
         <p class="submit">  
