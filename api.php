@@ -33,13 +33,13 @@ function citizenspace_api_search_fields($query) {
   return $ret;
 }
 
-function citizenspace_api_search_results($query, $offsite_consultations=false) {
+function citizenspace_api_search_results($query) {
   $ret = citizenspace_api_get('search_results?'.$query);
   if(!$ret) return "Citizen Space not available.";
   
-  // use the original URLs
-  if($offsite_consultations)
-    return $ret;
+  $embed_overviews = get_option('citizenspace_embed_overviews', '0');
+  
+  if(!$embed_overviews) return $ret;  // use the original URLs
   
   // rewrite the consultation URLs to use the wordpress page
 	$dom = new DOMDocument;
@@ -48,7 +48,7 @@ function citizenspace_api_search_results($query, $offsite_consultations=false) {
 
   for ($i = 0; $i < $items->length; $i++) {
       $href = $items->item($i)->getAttribute('href');
-      $items->item($i)->setAttribute('href', get_bloginfo('url').'?cs_consultation&url='.$href);
+      $items->item($i)->setAttribute('href', get_bloginfo('url').'?cs_consultation&path='.$href);
   }
   return $dom->saveHTML();
 }
@@ -58,8 +58,7 @@ function citizenspace_api_consultation_body($url) {
   if(strpos($url, $root) !== 0) {
     return 'This page is not part of the Citizen Space instance.';
   }
-  $path = str_replace($root, '', $url);
-  $ret = citizenspace_api_get('consult_body?path='.$path);
+  $ret = citizenspace_api_get('consult_body?path='.$url);
   if(!$ret) return "Citizen Space not available.";
   return $ret;
 }
@@ -69,8 +68,7 @@ function citizenspace_api_consultation_sidebar($url) {
   if(strpos($url, $root) !== 0) {
     return 'This page is not part of the Citizen Space instance.';
   }
-  $path = str_replace($root, '', $url);
-  $ret = citizenspace_api_get('consult_sidebar?path='.$path);
+  $ret = citizenspace_api_get('consult_sidebar?path='.$url);
   if(!$ret) return "Citizen Space not available.";
   return $ret;
 }

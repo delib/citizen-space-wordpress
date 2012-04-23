@@ -1,8 +1,10 @@
 <?php 
 /*
-Plugin Name: Delib Citizen Space integration
-Author: Jess Norwood
+Plugin Name: Citizen Space integration
+Author: Delib
+Author URI: http://www.delib.net
 Version: 0.1
+Description: A plugin to talk to Citizen Space via its API.
 */
 
 include_once dirname( __FILE__ ) . '/widget.php';
@@ -26,9 +28,15 @@ function citizenspace_admin_do() {
      if(strpos($url, 'http') !== 0) {
        $url = 'http://'.$url;
      }
-      update_option('citizenspace_url', $url);
+     update_option('citizenspace_url', $url);
+     
+     $embed_overviews = $_POST['embed_overviews'];
+     update_option('citizenspace_embed_overviews', $embed_overviews);
    }
+   
    $url = get_option('citizenspace_url', '');
+   $embed_overviews = get_option('citizenspace_embed_overviews', '0');
+   
    ?>
 <div class="wrap">  
     <h2>Citizen Space integration settings</h2>
@@ -43,6 +51,13 @@ function citizenspace_admin_do() {
         }
         ?>
         </p>  
+        
+        <p>
+          Consultation search results should:
+          <br/><input type="radio" name="embed_overviews" id="dont_embed_overviews" value="0" <?php if(!$embed_overviews) echo 'checked="checked"'?>/> <label for="dont_embed_overviews">Link to consultation records on Citizen Space</label>
+          <br/><input type="radio" name="embed_overviews" id="embed_overviews" value="1" <?php if($embed_overviews) echo 'checked="checked"'?>/> <label for="embed_overviews">Link to consultation records embedded in this site</label>
+        </p>
+        
         <p class="submit">  
         <input type="submit" name="cs_submit" value="Save" />  
         </p>  
@@ -117,8 +132,8 @@ function citizenspace_tool_do() {
  ****************************************************/ 
 function citizenspace_advanced_search($atts) {
   // get the query off the query string (yes there is room for collisions here)
-	$query = http_build_query($_GET);
-	$ret = '<div class="citizenspace-search-form advanced"><form action="'.$_SERVER['REQUEST_URI'].'">';
+	$query = http_build_query($_POST);
+	$ret = '<div class="citizenspace-search-form advanced"><form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
 	$ret .= citizenspace_api_advanced_search_fields($query);
 	$ret .= '<fieldset class=""><input type="submit" value="Search"/></fieldset></form></div>';
 	return $ret;
@@ -127,8 +142,8 @@ add_shortcode('citizenspace_advanced_search', 'citizenspace_advanced_search' );
 
 function citizenspace_basic_search($atts) {
   // get the query off the query string (yes there is room for collisions here)
-	$query = http_build_query($_GET);
-	$ret = '<div class="citizenspace-search-form basic"><form action="'.$_SERVER['REQUEST_URI'].'">';
+	$query = http_build_query($_POST);
+	$ret = '<div class="citizenspace-search-form basic"><form action="'.$_SERVER['REQUEST_URI'].'" method="post">';
 	$ret .= citizenspace_api_search_fields($query);
 	$ret .= '<fieldset class=""><input type="submit" value="Search"/></fieldset></form></div>';
 	return $ret;
@@ -140,9 +155,9 @@ function citizenspace_search_results($atts) {
   extract(shortcode_atts(array(
 		'query' => '',
 	), $atts ) );
-	// fall back to the query string
+	// fall back to the submitted query
 	if(!$query) {
-	  	$query = http_build_query($_GET);
+	  	$query = http_build_query($_POST);
 	}
 	
 	$results = citizenspace_api_search_results($query);
@@ -166,9 +181,10 @@ function citizenspace_consultation($atts) {
 	$ret .= '</div>';
 
 	$ret .= '<div class="citizenspace-consultation-sidebar">';
+	$ret .= '<h2>Additional information</h2>';
 	$ret .= citizenspace_api_consultation_sidebar($url);
 	$ret .= '</div>';
-	
+
 	return $ret;
 }
 add_shortcode( 'citizenspace_consultation', 'citizenspace_consultation' );
@@ -184,10 +200,10 @@ function citizenspace_consult_view() {
 		$post = new stdClass();
 			$post->ID= $id;
 			$post->post_category= array('uncategorized'); //Add some categories. an array()???
-			$post->post_content='[citizenspace_consultation url="'.$_GET['url'].'"]'; //The full text of the post.
+			$post->post_content='[citizenspace_consultation url="'.$_GET['path'].'"]'; //The full text of the post.
 			$post->post_status='publish'; //Set the status of the new post.
 			$post->post_title= 'Consultation details'; //The title of your post.
-			$post->post_type='page'; //Sometimes you might want to post a page.
+			$post->post_type='cs_consultation'; //Sometimes you might want to post a page.
 		$wp_query->queried_object=$post;
 		$wp_query->post=$post;
 		$wp_query->found_posts = 1;
@@ -197,12 +213,10 @@ function citizenspace_consult_view() {
 		$wp_query->is_404 = false;
 		$wp_query->is_posts_page = 0;
 		$wp_query->posts = array($post);
-		$wp_query->page=true;
+		$wp_query->is_page=true;
 		$wp_query->is_post=false;
-		$wp_query->page=true;
 	}
 }
 add_action('wp', 'citizenspace_consult_view');
-
 
 ?>
