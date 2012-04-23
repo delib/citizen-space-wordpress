@@ -27,8 +27,8 @@ on the on the form fields above.
 * __[citizenspace_consultation url="http://full_consultation_url"]__ - An individual consultation record.
 
 To use a shortcode, simply copy and paste the code (including its square brackets) into any page or post.
-When the page or post is displayed, Wordpress will contact Citizen Space, request the appropriate
-information and display it in place of the shortcode.
+When the page or post is displayed, Wordpress will contact the Citizen Space site, request the appropriate
+information and seamlessly display it in place of the shortcode.
 
 = Example =
 
@@ -36,7 +36,9 @@ To turn a page in your Wordpress site into a fully-functional consultation searc
 paste the following three lines:
 
 [citizenspace_advanced_search]
+
 Search results:
+
 [citizenspace_search_results]
 
 
@@ -48,10 +50,10 @@ parameter to the [citizenspace_search_results] shortcode, so it looks something 
 
 [citizenspace_search_results query="hide_batch_nav=1&st=open&au=Community+groups&ar=.site.Horfield&b_size=0"]
 
-Obviously a query like this is fiddly to write by hand, so we've included a form under
-_Tools->Citizen Space_ to make this simpler.  Just set up your search like you would do in the Citizen Space
-frontend, and it will generate a shortcode for you.  You can then embed this code in your page or post
-and you'll get an up-to-the-minute listing of all consultations matching your query.
+Obviously a query like this is fiddly to write by hand, so there's tool in the Wordpress backend under
+_Tools->Citizen Space_ to make this simpler.  Just enter your search details like you would do on Citizen Space's
+consultation search page, and it will generate a shortcode for you.  You can then embed this code in your page
+or post and you'll get an up-to-the-minute listing of all consultations matching your query.
 
 = Link options =
 
