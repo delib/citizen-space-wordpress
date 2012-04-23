@@ -3,7 +3,7 @@ Contributors: delib
 Tags: citizen space, consultation, online democracy, delib
 Requires at least: 3.3.1
 Tested up to: 3.3.1
-Stable tag: 1.0
+Stable tag: trunk
 
 A plugin to talk to Citizen Space via its API.
 
