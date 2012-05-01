@@ -7,7 +7,6 @@ Version: 0.1
 Description: A plugin to talk to Citizen Space via its API.
 */
 
-include_once dirname( __FILE__ ) . '/widget.php';
 include_once dirname( __FILE__ ) . '/api.php';
 
 wp_register_style('citizenspace.css', plugin_dir_url( __FILE__ ) . 'citizenspace.css');
