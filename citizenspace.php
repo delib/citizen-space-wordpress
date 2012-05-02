@@ -3,7 +3,7 @@
 Plugin Name: Citizen Space integration
 Author: Delib
 Author URI: http://www.delib.net
-Version: 0.1
+Version: 1.0
 Description: A plugin to talk to Citizen Space via its API.
 */
 
