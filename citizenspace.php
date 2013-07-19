@@ -103,7 +103,7 @@ function citizenspace_tool_do() {
   <div class="wrap citizenspace-shortcode-builder">  
     <h2>Citizen Space shortcode builder</h2>
     <?php if(citizenspace_api_is_valid_url($url)) {
-      echo '<p class="citizenspace-good">Your site is currently set to talk to <a href="'.$url.'">'.$url.'</a>, which is a valid Citizen Space site.</p>';
+      echo '<p class="citizenspace-good">Your site is currently set to talk to <a href="'.htmlspecialchars($url,ENT_QUOTES).'">'.htmlspecialchars($url,ENT_QUOTES).'</a>, which is a valid Citizen Space site.</p>';
     }
     else { 
       echo '<p class="citizenspace-bad">Your site is not currently set to talk to a valid Citizen Space site.  Please update your settings.</p>';
