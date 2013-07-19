@@ -2,8 +2,8 @@
 Contributors: delib
 Tags: citizen space, consultation, online democracy, delib
 Requires at least: 3.3.1
-Tested up to: 3.3.1
-Stable tag: 1.0
+Tested up to: 3.5.2
+Stable tag: 1.1
 
 A plugin to talk to Citizen Space via its API.
 
@@ -69,10 +69,18 @@ don't have to leave your site to read them, you can change this in _Settings->Ci
 
 == Changelog ==
 
+= 1.1 =
+
+* Fix persistent XSS vulnerability, responsibly disclosed by Harry Metcalfe of dxw.com
+
 = 1.0 =
 * Initial release
 
 == Upgrade Notice ==
+
+= 1.1 =
+
+* Users of previous versions should upgrade to 1.1 to fix a medium severity cross-site scripting attack.
 
 = 1.0 =
 Initial release
