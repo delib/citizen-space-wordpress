@@ -27,8 +27,9 @@ function citizenspace_admin_do() {
      if(strpos($url, 'http') !== 0) {
        $url = 'http://'.$url;
      }
-     update_option('citizenspace_url', $url);
-     
+     if(filter_var($url, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED)) {
+       update_option('citizenspace_url', $url);
+     }
      $embed_overviews = $_POST['embed_overviews'];
      update_option('citizenspace_embed_overviews', $embed_overviews);
    }
