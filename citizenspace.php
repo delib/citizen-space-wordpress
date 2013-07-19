@@ -41,7 +41,7 @@ function citizenspace_admin_do() {
 <div class="wrap">  
     <h2>Citizen Space integration settings</h2>
     <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">  
-        <p><?php _e("Citizen Space URL: " ); ?><input type="text" name="citizenspace_url" value="<?php echo $url; ?>" size="40">
+        <p><?php _e("Citizen Space URL: " ); ?><input type="text" name="citizenspace_url" value="<?php echo htmlspecialchars($url, ENT_QUOTES) ?>" size="40">
         
         <?php if(citizenspace_api_is_valid_url($url)) {
           echo '<span class="citizenspace-good">This looks like a valid Citizen Space site.</span>'; 
