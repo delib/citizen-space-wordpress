@@ -23,6 +23,9 @@ add_action('admin_menu', 'citizenspace_admin_actions');
  ****************************************************/
 function citizenspace_admin_do() {
   if(isset($_POST['cs_submit'])) { 
+    if (!isset($_POST['citizenspace_authenticator'])) die("Could not verify, please try again");
+    if (!wp_verify_nonce($_POST['citizenspace_authenticator'], 'citizenspace_authenticator')) die("Could not verify, please try again");
+
      $url = $_POST['citizenspace_url'];
      if(strpos($url, 'http') !== 0) {
        $url = 'http://'.$url;
@@ -41,6 +44,7 @@ function citizenspace_admin_do() {
 <div class="wrap">  
     <h2>Citizen Space integration settings</h2>
     <form method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">  
+        <input name="citizenspace_authenticator" type="hidden" value="<?php echo wp_create_nonce('citizenspace_authenticator'); ?>" />
         <p><?php _e("Citizen Space URL: " ); ?><input type="text" name="citizenspace_url" value="<?php echo htmlspecialchars($url, ENT_QUOTES) ?>" size="40">
         
         <?php if(citizenspace_api_is_valid_url($url)) {
