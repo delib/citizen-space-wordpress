@@ -90,7 +90,11 @@ function citizenspace_tool_do() {
    
    // Parse the post and build a query string from the nonempty ones
    if(isset($_POST['cs_submit'])) {
+    if (!isset($_POST['citizenspace_search_authenticator'])) die("Could not verify, please try again");
+    if (!wp_verify_nonce($_POST['citizenspace_search_authenticator'], 'citizenspace_search_authenticator')) die("Could not verify, please try again");
+
      unset($_POST['cs_submit']);
+     unset($_POST['citizenspace_search_authenticator']);
      $args = array();
      foreach($_POST as $k => $v) {
        if($v !== "") {
@@ -116,6 +120,7 @@ function citizenspace_tool_do() {
     ?>
 
     <form class="citizenspace-search-form" method="post" action="<?php echo $_SERVER['REQUEST_URI'] ?>">
+     <input name="citizenspace_search_authenticator" type="hidden" value="<?php echo wp_create_nonce('citizenspace_search_authenticator'); ?>" />
      <legend><h2>Step 1:</h2><p>Use the following options to choose the consultations you want to embed in your site:</p></legend>
        <?php echo citizenspace_api_advanced_search_fields($query) ?>
         <p class="submit">  
